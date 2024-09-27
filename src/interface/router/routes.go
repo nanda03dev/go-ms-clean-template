@@ -7,9 +7,9 @@ import (
 	"github.com/nanda03dev/go-ms-template/src/interface/controllers"
 )
 
-func InitializeRoutes(ginRouter *gin.Engine, mongoDB *db.MongoDB, postgresDB *db.PostgresDB) {
+func InitializeRoutes(ginRouter *gin.Engine, databases *db.Databases) {
 
-	healthService := service.NewHealthService(mongoDB, postgresDB)
+	healthService := service.NewHealthService(databases)
 	healthController := controllers.NewHealthController(healthService)
 
 	ginRouter.GET("/health", healthController.Health)

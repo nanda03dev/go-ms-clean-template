@@ -5,21 +5,23 @@ import (
 	"github.com/nanda03dev/go-ms-template/src/interface/dto"
 )
 
-type HealthSearvice struct {
-	MongoDB    *db.MongoDB
-	PostgresDB *db.PostgresDB
+type HealthService interface {
+	Health() dto.HealthDTO
 }
 
-func NewHealthService(mongoDB *db.MongoDB, postgresDB *db.PostgresDB) *HealthSearvice {
-	return &HealthSearvice{
-		MongoDB:    mongoDB,
-		PostgresDB: postgresDB,
+type healthService struct {
+	databases *db.Databases
+}
+
+func NewHealthService(databases *db.Databases) HealthService {
+	return &healthService{
+		databases: databases,
 	}
 }
 
-func (s *HealthSearvice) Health() dto.HealthDTO {
-	mongoDBHealth, mongoStatus := s.MongoDB.Health()
-	postgresDBHealth, postgresStatus := s.PostgresDB.Health()
+func (s *healthService) Health() dto.HealthDTO {
+	mongoDBHealth, mongoStatus := s.databases.MongoDB.Health()
+	postgresDBHealth, postgresStatus := s.databases.PostgresDB.Health()
 
 	var serviceHealth = "go ms template is waiting for requests"
 

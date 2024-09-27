@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"time"
 
 	_ "github.com/lib/pq" // PostgreSQL driver
@@ -11,9 +12,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Database interface {
-	Connect() error
-	Health() error
+type DatabaseInfo struct {
+	MongoURI    string
+	PostgresURI string
+}
+
+type Databases struct {
+	MongoDB    *MongoDB
+	PostgresDB *PostgresDB
 }
 
 type MongoDB struct {
@@ -22,6 +28,28 @@ type MongoDB struct {
 
 type PostgresDB struct {
 	DB *sql.DB
+}
+
+func NewDatabases(databaseInfo DatabaseInfo) *Databases {
+	mongoDB, err := ConnectMongoDB(databaseInfo.MongoURI)
+
+	if err != nil {
+		log.Fatalf("Could not connect to MongoDB: %v", err)
+	} else {
+		fmt.Println("successfully connected to MongoDB")
+	}
+
+	postgresDB, err := ConnectPostgresDB(databaseInfo.PostgresURI)
+	if err != nil {
+		log.Fatalf("Could not connect to PostgreSQL: %v", err)
+	} else {
+		fmt.Println("successfully connected to PostgreSQL")
+	}
+
+	return &Databases{
+		MongoDB:    mongoDB,
+		PostgresDB: postgresDB,
+	}
 }
 
 func (m *MongoDB) Connect(uri string) error {
