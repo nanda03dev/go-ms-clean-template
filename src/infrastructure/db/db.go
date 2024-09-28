@@ -23,7 +23,7 @@ type Databases struct {
 }
 
 type MongoDB struct {
-	Client *mongo.Client
+	DB *mongo.Database
 }
 
 type PostgresDB struct {
@@ -58,7 +58,9 @@ func (m *MongoDB) Connect(uri string) error {
 	if err != nil {
 		return fmt.Errorf("failed to connect to MongoDB: %w", err)
 	}
-	m.Client = client
+
+	m.DB = client.Database("go-ms-template")
+
 	return nil
 }
 
@@ -68,7 +70,7 @@ func (m *MongoDB) Health() (string, bool) {
 	defer cancel()
 
 	// Run a ping to the MongoDB server
-	err := m.Client.Ping(ctx, nil)
+	err := m.DB.Client().Ping(ctx, nil)
 
 	if err != nil {
 		return "MongoDB health check failed", false

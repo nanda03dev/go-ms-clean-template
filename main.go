@@ -12,7 +12,7 @@ import (
 
 func main() {
 	var databases = ConnectToDBs()
-	defer databases.MongoDB.Client.Disconnect(context.Background())
+	defer databases.MongoDB.DB.Client().Disconnect(context.Background())
 	defer databases.PostgresDB.DB.Close()
 
 	var ginEngine = gin.Default()

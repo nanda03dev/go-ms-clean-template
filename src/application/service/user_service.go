@@ -23,7 +23,7 @@ func NewUserService(userRepo domain.UserRepository) UserService {
 
 func (s *userService) CreateUser(createUserDTO dto.CreateUserDTO) (*domain.User, error) {
 	newUser := &domain.User{
-		ID:       Generate16DigitUUID(), // Generate unique ID (UUID or similar)
+		UserID:   Generate16DigitUUID(), // Generate unique ID (UUID or similar)
 		Name:     createUserDTO.Name,
 		Email:    createUserDTO.Email,
 		Password: createUserDTO.Password,

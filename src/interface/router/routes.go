@@ -17,11 +17,21 @@ func InitializeRoutes(ginRouter *gin.Engine, dbs *db.Databases) {
 	userService := service.NewUserService(userRepository)
 	userController := controllers.NewUserController(userService)
 
+	orderRepository := repositories.NewOrderRepository(dbs)
+	orderService := service.NewOrderService(orderRepository)
+	orderController := controllers.NewOrderController(orderService)
+
 	ginRouter.GET("/health", healthController.Health)
 
 	userRoutes := ginRouter.Group("/user")
 	{
 		userRoutes.POST("/", userController.CreateUser)
 		userRoutes.GET("/:id", userController.GetUserByID)
+	}
+
+	orderRoutes := ginRouter.Group("/order")
+	{
+		orderRoutes.POST("/", orderController.CreateOrder)
+		orderRoutes.GET("/:id", orderController.GetOrderByID)
 	}
 }
