@@ -1,14 +1,12 @@
 package repositories
 
 import (
-	"errors"
+	"context"
 
 	domain "github.com/nanda03dev/go-ms-template/src/domain/order"
 	"github.com/nanda03dev/go-ms-template/src/infrastructure/db"
+	"github.com/nanda03dev/go-ms-template/src/infrastructure/entity"
 )
-
-// In-memory storage for simplicity; replace with actual DB connection
-var orders = map[string]*domain.Order{}
 
 type OrderRepositoryImpl struct {
 	dbs *db.Databases
@@ -19,14 +17,31 @@ func NewOrderRepository(dbs *db.Databases) domain.OrderRepository {
 }
 
 func (r *OrderRepositoryImpl) Save(order *domain.Order) error {
-	orders[order.ID] = order
-	return nil
+	query := `INSERT INTO orders (order_id, user_id, item_name, amount) VALUES ($1, $2, $3, $4)`
+	_, err := r.dbs.PostgresDB.DB.ExecContext(context.TODO(), query, order.ID, order.UserID, order.ItemName, order.Amount)
+	return err
 }
 
 func (r *OrderRepositoryImpl) FindById(id string) (*domain.Order, error) {
-	order, exists := orders[id]
-	if !exists {
-		return nil, errors.New("order not found")
+	var order entity.Order
+
+	query := `SELECT order_id, user_id, item_name, amount FROM orders WHERE order_id = $1`
+	err := r.dbs.PostgresDB.DB.QueryRowContext(context.TODO(), query, id).Scan(&order.OrderID, &order.UserID, &order.Amount, &order.ItemName)
+
+	if err != nil {
+		return nil, err
 	}
-	return order, nil
+
+	// Convert entity.Order to domain.Order
+	return convertEntityOrderToDomainOrder(&order), nil
+}
+
+// Convert entity.Order to domain.Order
+func convertEntityOrderToDomainOrder(eo *entity.Order) *domain.Order {
+	return &domain.Order{
+		ID:       eo.OrderID,
+		UserID:   eo.UserID,
+		Amount:   eo.Amount,
+		ItemName: eo.ItemName,
+	}
 }

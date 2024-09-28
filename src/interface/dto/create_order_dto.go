@@ -1,7 +1,7 @@
 package dto
 
 type CreateOrderDTO struct {
-	UserID   int     `json:"userID"`
-	ItemName string  `json:"item_name"`
+	UserID   string  `json:"userID"`
+	ItemName string  `json:"itemName"`
 	Amount   float64 `json:"amount"`
 }

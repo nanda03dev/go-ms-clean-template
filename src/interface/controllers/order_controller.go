@@ -27,14 +27,14 @@ func (c *orderController) CreateOrder(ctx *gin.Context) {
 	var orderDTO dto.CreateOrderDTO
 
 	if err := ctx.ShouldBindJSON(&orderDTO); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
 	}
 
 	result, err := c.orderService.CreateOrder(orderDTO)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Error while save data"})
 		return
 	}
 
