@@ -7,16 +7,20 @@ import (
 	"github.com/nanda03dev/go-ms-template/src/application/service"
 )
 
-type HealthController struct {
+type HealthController interface {
+	Health(ctx *gin.Context)
+}
+
+type healthController struct {
 	healthService service.HealthService
 }
 
-func NewHealthController(healthService service.HealthService) *HealthController {
-	return &HealthController{
+func NewHealthController(healthService service.HealthService) HealthController {
+	return &healthController{
 		healthService: healthService,
 	}
 }
 
-func (c *HealthController) Health(ctx *gin.Context) {
-	ctx.JSON(http.StatusAccepted, c.healthService.Health())
+func (c *healthController) Health(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, c.healthService.Health())
 }
