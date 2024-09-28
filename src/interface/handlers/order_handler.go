@@ -1,4 +1,4 @@
-package controllers
+package handlers
 
 import (
 	"net/http"
@@ -8,22 +8,22 @@ import (
 	"github.com/nanda03dev/go-ms-template/src/interface/dto"
 )
 
-type OrderController interface {
+type OrderHandler interface {
 	CreateOrder(ctx *gin.Context)
 	GetOrderByID(ctx *gin.Context)
 }
 
-type orderController struct {
+type orderHandler struct {
 	orderService service.OrderService
 }
 
-func NewOrderController(orderService service.OrderService) OrderController {
-	return &orderController{
+func NewOrderHandler(orderService service.OrderService) OrderHandler {
+	return &orderHandler{
 		orderService: orderService,
 	}
 }
 
-func (c *orderController) CreateOrder(ctx *gin.Context) {
+func (c *orderHandler) CreateOrder(ctx *gin.Context) {
 	var orderDTO dto.CreateOrderDTO
 
 	if err := ctx.ShouldBindJSON(&orderDTO); err != nil {
@@ -41,7 +41,7 @@ func (c *orderController) CreateOrder(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, result)
 }
 
-func (c *orderController) GetOrderByID(ctx *gin.Context) {
+func (c *orderHandler) GetOrderByID(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 
 	order, err := c.orderService.GetOrderById(idParam)

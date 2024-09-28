@@ -6,23 +6,34 @@ This repository provides a template for building a microservice in Go, following
 
 ```
 project/
-├── domain/                      
-│   ├── user.go                  
-│   └── user_repository.go       
-├── application/                 
-│   └── user_service.go          
-├── infrastructure/              
-│   ├── db/                     
-│   │   ├── mongo.go             # MongoDB connection code
-│   │   ├── postgres.go          # PostgreSQL connection code
-│   │   └── db.go                # Common interface and connection logic
-│   └── user_repository_impl.go  
-├── interfaces/                  
-│   ├── user_handler.go          
-│   └── dto/
-│       └── create_user_dto.go   
-├── main.go                      
-└── go.mod                       
+├── domain/
+│   ├── aggregate/ 
+│   │   ├── user.go          # Business logic for User
+│   │   └── order.go         # Business logic for Order
+├── application/
+│   ├── service/ 
+│   │   ├── user_service.go          # Business logic for User
+│   │   └── order_service.go         # Business logic for Order
+├── infrastructure/
+│   ├── db/
+│   │   ├── db.go                    # Database connection
+│   │   └── mongo-db.go              # Mongo Database connection
+│   │   └── postgres-db.go           # Postgres Database connection
+│   ├── entity/
+│   │   ├── user.go                  # MongoDB User entity
+│   │   └── order.go                 # PostgreSQL Order entity
+│   ├── repository/
+│   │   ├── user_repository_impl.go  # MongoDB implementation of UserRepository
+│   │   └── order_repository_impl.go # PostgreSQL implementation of OrderRepository
+├── interfaces/
+│   ├── handlers/
+│   │   ├── user_handler.go       # HTTP handler for User
+│   │   └── order_handler.go      # HTTP handler for Order
+├── app_module/                      # Central module initialization
+│   └── app_module.go                # Initializes repositories and services
+├── migrations/                      # Migration scripts for PostgreSQL
+├── main.go                          # Application entry point
+└── go.mod                             
 ```
 
 ## Layers Explained

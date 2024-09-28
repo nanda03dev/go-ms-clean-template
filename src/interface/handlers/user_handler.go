@@ -1,4 +1,4 @@
-package controllers
+package handlers
 
 import (
 	"net/http"
@@ -8,22 +8,22 @@ import (
 	"github.com/nanda03dev/go-ms-template/src/interface/dto"
 )
 
-type UserController interface {
+type UserHandler interface {
 	CreateUser(ctx *gin.Context)
 	GetUserByID(ctx *gin.Context)
 }
 
-type userController struct {
+type userHandler struct {
 	userService service.UserService
 }
 
-func NewUserController(userService service.UserService) UserController {
-	return &userController{
+func NewUserHandler(userService service.UserService) UserHandler {
+	return &userHandler{
 		userService: userService,
 	}
 }
 
-func (c *userController) CreateUser(ctx *gin.Context) {
+func (c *userHandler) CreateUser(ctx *gin.Context) {
 	var userDTO dto.CreateUserDTO
 
 	if err := ctx.ShouldBindJSON(&userDTO); err != nil {
@@ -41,7 +41,7 @@ func (c *userController) CreateUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, result)
 }
 
-func (c *userController) GetUserByID(ctx *gin.Context) {
+func (c *userHandler) GetUserByID(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 
 	user, err := c.userService.GetUserById(idParam)

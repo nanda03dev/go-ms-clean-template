@@ -5,15 +5,15 @@ import (
 
 	_ "github.com/lib/pq" // PostgreSQL driver
 	"github.com/nanda03dev/go-ms-template/src/application/service"
-	"github.com/nanda03dev/go-ms-template/src/domain"
+	"github.com/nanda03dev/go-ms-template/src/domain/aggregate"
 	"github.com/nanda03dev/go-ms-template/src/infrastructure/db"
 	"github.com/nanda03dev/go-ms-template/src/infrastructure/repositories"
-	"github.com/nanda03dev/go-ms-template/src/interface/controllers"
+	"github.com/nanda03dev/go-ms-template/src/interface/handlers"
 )
 
 type Repository struct {
-	UserRepository  domain.UserRepository
-	OrderRepository domain.OrderRepository
+	UserRepository  aggregate.UserRepository
+	OrderRepository aggregate.OrderRepository
 }
 
 type Service struct {
@@ -22,16 +22,16 @@ type Service struct {
 	OrderService  service.OrderService
 }
 
-type Controller struct {
-	HealthController controllers.HealthController
-	UserController   controllers.UserController
-	OrderController  controllers.OrderController
+type Handler struct {
+	HealthHandler handlers.HealthHandler
+	UserHandler   handlers.UserHandler
+	OrderHandler  handlers.OrderHandler
 }
 
 type AppModule struct {
 	Service    Service
 	Repository Repository
-	Controller Controller
+	Handler    Handler
 }
 
 var (
@@ -44,15 +44,15 @@ func GetAppModule() *AppModule {
 		var databases = db.GetDBConnection()
 
 		healthService := service.NewHealthService(databases)
-		healthController := controllers.NewHealthController(healthService)
+		healthHandler := handlers.NewHealthHandler(healthService)
 
 		userRepository := repositories.NewUserRepository(databases)
 		userService := service.NewUserService(userRepository)
-		userController := controllers.NewUserController(userService)
+		userHandler := handlers.NewUserHandler(userService)
 
 		orderRepository := repositories.NewOrderRepository(databases)
 		orderService := service.NewOrderService(orderRepository)
-		orderController := controllers.NewOrderController(orderService)
+		orderHandler := handlers.NewOrderHandler(orderService)
 
 		appModule = &AppModule{
 			Repository: Repository{
@@ -64,10 +64,10 @@ func GetAppModule() *AppModule {
 				UserService:   userService,
 				OrderService:  orderService,
 			},
-			Controller: Controller{
-				HealthController: healthController,
-				UserController:   userController,
-				OrderController:  orderController},
+			Handler: Handler{
+				HealthHandler: healthHandler,
+				UserHandler:   userHandler,
+				OrderHandler:  orderHandler},
 		}
 	})
 	return appModule

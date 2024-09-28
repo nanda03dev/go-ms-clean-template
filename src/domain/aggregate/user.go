@@ -1,4 +1,4 @@
-package domain
+package aggregate
 
 type User struct {
 	UserID   string
@@ -10,4 +10,9 @@ type User struct {
 // Business logic inside domain entities
 func (u *User) ChangeEmail(newEmail string) {
 	u.Email = newEmail
+}
+
+type UserRepository interface {
+	Save(user *User) error
+	FindById(id string) (*User, error)
 }

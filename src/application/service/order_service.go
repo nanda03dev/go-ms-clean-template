@@ -1,27 +1,27 @@
 package service
 
 import (
-	"github.com/nanda03dev/go-ms-template/src/domain"
+	"github.com/nanda03dev/go-ms-template/src/domain/aggregate"
 	"github.com/nanda03dev/go-ms-template/src/interface/dto"
 )
 
 type OrderService interface {
-	CreateOrder(order dto.CreateOrderDTO) (*domain.Order, error)
-	GetOrderById(id string) (*domain.Order, error)
+	CreateOrder(order dto.CreateOrderDTO) (*aggregate.Order, error)
+	GetOrderById(id string) (*aggregate.Order, error)
 }
 
 type orderService struct {
-	orderRepo domain.OrderRepository
+	orderRepo aggregate.OrderRepository
 }
 
-func NewOrderService(orderRepo domain.OrderRepository) OrderService {
+func NewOrderService(orderRepo aggregate.OrderRepository) OrderService {
 	return &orderService{
 		orderRepo: orderRepo,
 	}
 }
 
-func (s *orderService) CreateOrder(createOrderDTO dto.CreateOrderDTO) (*domain.Order, error) {
-	newUser := &domain.Order{
+func (s *orderService) CreateOrder(createOrderDTO dto.CreateOrderDTO) (*aggregate.Order, error) {
+	newUser := &aggregate.Order{
 		ID:       Generate16DigitUUID(), // Generate unique ID (UUID or similar)
 		UserID:   createOrderDTO.UserID,
 		ItemName: createOrderDTO.ItemName,
@@ -35,6 +35,6 @@ func (s *orderService) CreateOrder(createOrderDTO dto.CreateOrderDTO) (*domain.O
 	return newUser, nil
 }
 
-func (s *orderService) GetOrderById(id string) (*domain.Order, error) {
+func (s *orderService) GetOrderById(id string) (*aggregate.Order, error) {
 	return s.orderRepo.FindById(id)
 }

@@ -1,4 +1,4 @@
-package controllers
+package handlers
 
 import (
 	"net/http"
@@ -7,20 +7,20 @@ import (
 	"github.com/nanda03dev/go-ms-template/src/application/service"
 )
 
-type HealthController interface {
+type HealthHandler interface {
 	Health(ctx *gin.Context)
 }
 
-type healthController struct {
+type healthHandler struct {
 	healthService service.HealthService
 }
 
-func NewHealthController(healthService service.HealthService) HealthController {
-	return &healthController{
+func NewHealthHandler(healthService service.HealthService) HealthHandler {
+	return &healthHandler{
 		healthService: healthService,
 	}
 }
 
-func (c *healthController) Health(ctx *gin.Context) {
+func (c *healthHandler) Health(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, c.healthService.Health())
 }

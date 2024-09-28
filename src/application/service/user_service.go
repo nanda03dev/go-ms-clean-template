@@ -2,27 +2,27 @@ package service
 
 import (
 	"github.com/google/uuid"
-	"github.com/nanda03dev/go-ms-template/src/domain"
+	"github.com/nanda03dev/go-ms-template/src/domain/aggregate"
 	"github.com/nanda03dev/go-ms-template/src/interface/dto"
 )
 
 type UserService interface {
-	CreateUser(createUserDTO dto.CreateUserDTO) (*domain.User, error)
-	GetUserById(id string) (*domain.User, error)
+	CreateUser(createUserDTO dto.CreateUserDTO) (*aggregate.User, error)
+	GetUserById(id string) (*aggregate.User, error)
 }
 
 type userService struct {
-	userRepo domain.UserRepository
+	userRepo aggregate.UserRepository
 }
 
-func NewUserService(userRepo domain.UserRepository) UserService {
+func NewUserService(userRepo aggregate.UserRepository) UserService {
 	return &userService{
 		userRepo: userRepo,
 	}
 }
 
-func (s *userService) CreateUser(createUserDTO dto.CreateUserDTO) (*domain.User, error) {
-	newUser := &domain.User{
+func (s *userService) CreateUser(createUserDTO dto.CreateUserDTO) (*aggregate.User, error) {
+	newUser := &aggregate.User{
 		UserID:   Generate16DigitUUID(), // Generate unique ID (UUID or similar)
 		Name:     createUserDTO.Name,
 		Email:    createUserDTO.Email,
@@ -36,7 +36,7 @@ func (s *userService) CreateUser(createUserDTO dto.CreateUserDTO) (*domain.User,
 	return newUser, nil
 }
 
-func (s *userService) GetUserById(id string) (*domain.User, error) {
+func (s *userService) GetUserById(id string) (*aggregate.User, error) {
 	return s.userRepo.FindById(id)
 }
 

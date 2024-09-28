@@ -9,21 +9,21 @@ func InitializeRoutes(ginRouter *gin.Engine) {
 
 	var appModule = app_module.GetAppModule()
 
-	healthController := appModule.Controller.HealthController
-	userController := appModule.Controller.UserController
-	orderController := appModule.Controller.OrderController
+	healthHandler := appModule.Handler.HealthHandler
+	userHandler := appModule.Handler.UserHandler
+	orderHandler := appModule.Handler.OrderHandler
 
-	ginRouter.GET("/health", healthController.Health)
+	ginRouter.GET("/health", healthHandler.Health)
 
 	userRoutes := ginRouter.Group("/user")
 	{
-		userRoutes.POST("/", userController.CreateUser)
-		userRoutes.GET("/:id", userController.GetUserByID)
+		userRoutes.POST("/", userHandler.CreateUser)
+		userRoutes.GET("/:id", userHandler.GetUserByID)
 	}
 
 	orderRoutes := ginRouter.Group("/order")
 	{
-		orderRoutes.POST("/", orderController.CreateOrder)
-		orderRoutes.GET("/:id", orderController.GetOrderByID)
+		orderRoutes.POST("/", orderHandler.CreateOrder)
+		orderRoutes.GET("/:id", orderHandler.GetOrderByID)
 	}
 }
