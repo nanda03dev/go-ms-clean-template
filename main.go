@@ -27,12 +27,12 @@ func ConnectToDBs() *db.Databases {
 	mongoURI := "mongodb://localhost:27017"
 	postgresURI := "postgres://nanda:test@localhost/go-ms-template?sslmode=disable"
 
-	databases := db.NewDatabases(db.DatabaseInfo{MongoURI: mongoURI, PostgresURI: postgresURI})
+	dbs := db.NewDatabases(db.DatabaseInfo{MongoURI: mongoURI, PostgresURI: postgresURI})
 
 	// Run migrations before starting the application
-	if err := sql_migration.RunMigration(databases.PostgresDB.DB); err != nil {
+	if err := sql_migration.RunMigration(dbs.PostgresDB.DB); err != nil {
 		log.Fatalf("Could not run migrations: %v", err)
 	}
 
-	return databases
+	return dbs
 }

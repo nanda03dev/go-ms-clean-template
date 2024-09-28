@@ -10,18 +10,18 @@ type HealthService interface {
 }
 
 type healthService struct {
-	databases *db.Databases
+	dbs *db.Databases
 }
 
-func NewHealthService(databases *db.Databases) HealthService {
+func NewHealthService(dbs *db.Databases) HealthService {
 	return &healthService{
-		databases: databases,
+		dbs: dbs,
 	}
 }
 
 func (s *healthService) Health() dto.HealthDTO {
-	mongoDBHealth, mongoStatus := s.databases.MongoDB.Health()
-	postgresDBHealth, postgresStatus := s.databases.PostgresDB.Health()
+	mongoDBHealth, mongoStatus := s.dbs.MongoDB.Health()
+	postgresDBHealth, postgresStatus := s.dbs.PostgresDB.Health()
 
 	var serviceHealth = "go ms template is waiting for requests"
 
