@@ -3,7 +3,7 @@ package repositories
 import (
 	"context"
 
-	domain "github.com/nanda03dev/go-ms-template/src/domain/user"
+	"github.com/nanda03dev/go-ms-template/src/domain"
 	"github.com/nanda03dev/go-ms-template/src/infrastructure/db"
 	"github.com/nanda03dev/go-ms-template/src/infrastructure/entity"
 	"go.mongodb.org/mongo-driver/bson"

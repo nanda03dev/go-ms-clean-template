@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/google/uuid"
-	domain "github.com/nanda03dev/go-ms-template/src/domain/user"
+	"github.com/nanda03dev/go-ms-template/src/domain"
 	"github.com/nanda03dev/go-ms-template/src/interface/dto"
 )
 

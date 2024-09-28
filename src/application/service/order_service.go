@@ -1,7 +1,7 @@
 package service
 
 import (
-	domain "github.com/nanda03dev/go-ms-template/src/domain/order"
+	"github.com/nanda03dev/go-ms-template/src/domain"
 	"github.com/nanda03dev/go-ms-template/src/interface/dto"
 )
 
