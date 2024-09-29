@@ -13,7 +13,7 @@ func main() {
 	defer databases.MongoDB.Disconnect()
 	defer databases.PostgresDB.Disconnect()
 
-	app_module.GetAppModule()
+	app_module.InitModules()
 
 	var ginEngine = gin.Default()
 

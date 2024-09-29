@@ -39,6 +39,10 @@ var (
 	appModule *AppModule
 )
 
+func InitModules() *AppModule {
+	return GetAppModule()
+}
+
 func GetAppModule() *AppModule {
 	once.Do(func() {
 		var databases = db.GetDBConnection()
