@@ -1,6 +1,7 @@
-# Golang Microservice Template
+# Golang Microservice Template 🚀
 
-This repository provides a template for building a microservice in Go, following the Clean Architecture principles. It is designed to facilitate maintainability, testability, and scalability.
+A scalable and maintainable microservice template in Go, inspired by the NestJS framework and built on Clean Architecture principles. Perfect for handling complex domain-driven projects with robust design and separation of concerns. Ready for both MongoDB and PostgreSQL out of the box! 💻⚡
+
 
 ## Project Structure
 
