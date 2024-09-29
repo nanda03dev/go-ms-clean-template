@@ -2,15 +2,28 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/nanda03dev/go-ms-template/src/application/service"
-	"github.com/nanda03dev/go-ms-template/src/infrastructure/db"
-	"github.com/nanda03dev/go-ms-template/src/interface/controllers"
+	"github.com/nanda03dev/go-ms-template/src/app_module"
 )
 
-func InitializeRoutes(ginRouter *gin.Engine, databases *db.Databases) {
+func InitializeRoutes(ginRouter *gin.Engine) {
 
-	healthService := service.NewHealthService(databases)
-	healthController := controllers.NewHealthController(healthService)
+	var appModule = app_module.GetAppModule()
 
-	ginRouter.GET("/health", healthController.Health)
+	healthHandler := appModule.Handler.HealthHandler
+	userHandler := appModule.Handler.UserHandler
+	orderHandler := appModule.Handler.OrderHandler
+
+	ginRouter.GET("/health", healthHandler.Health)
+
+	userRoutes := ginRouter.Group("/user")
+	{
+		userRoutes.POST("/", userHandler.CreateUser)
+		userRoutes.GET("/:id", userHandler.GetUserByID)
+	}
+
+	orderRoutes := ginRouter.Group("/order")
+	{
+		orderRoutes.POST("/", orderHandler.CreateOrder)
+		orderRoutes.GET("/:id", orderHandler.GetOrderByID)
+	}
 }

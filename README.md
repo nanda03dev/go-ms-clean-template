@@ -1,28 +1,46 @@
-# Golang Microservice Template
+# Golang Microservice Template 🚀
 
-This repository provides a template for building a microservice in Go, following the Clean Architecture principles. It is designed to facilitate maintainability, testability, and scalability.
+A scalable and maintainable microservice template in Go, inspired by the NestJS framework and built on Clean Architecture principles. Perfect for handling complex domain-driven projects with robust design and separation of concerns. Ready for both MongoDB and PostgreSQL out of the box! 💻⚡
+
 
 ## Project Structure
 
 ```
 project/
-├── domain/                      
-│   ├── user.go                  
-│   └── user_repository.go       
-├── application/                 
-│   └── user_service.go          
-├── infrastructure/              
-│   ├── db/                     
-│   │   ├── mongo.go             # MongoDB connection code
-│   │   ├── postgres.go          # PostgreSQL connection code
-│   │   └── db.go                # Common interface and connection logic
-│   └── user_repository_impl.go  
-├── interfaces/                  
-│   ├── user_handler.go          
-│   └── dto/
-│       └── create_user_dto.go   
-├── main.go                      
-└── go.mod                       
+├── migrations/                      # Migration scripts for PostgreSQL
+│   └── user_migration.sql
+│   └── order_migration.sql
+├── main.go                          # Application entry point
+├── go.mod
+├── src/                             # Source code folder (contains all the layers)
+│   ├── domain/
+│   │   └── aggregates/
+│   │       ├── user.go              # Business logic for User (Domain model)
+│   │       └── order.go             # Business logic for Order (Domain model)
+│   ├── application/
+│   │   └── service/
+│   │       ├── user_service.go      # Business logic for User
+│   │       └── order_service.go     # Business logic for Order
+│   ├── infrastructure/
+│   │   ├── db/
+│   │   │   ├── db.go                # General Database connection
+│   │   │   └── mongo-db.go          # MongoDB connection logic
+│   │   │   └── postgres-db.go       # PostgreSQL connection logic
+│   │   ├── entity/
+│   │   │   ├── user.go              # MongoDB User entity
+│   │   │   └── order.go             # PostgreSQL Order entity
+│   │   ├── repository/
+│   │   │   ├── user_repository_impl.go  # MongoDB UserRepository implementation
+│   │   │   └── order_repository_impl.go # PostgreSQL OrderRepository implementation
+│   ├── interfaces/
+│   │   └── handlers/
+│   │       ├── user_handler.go      # HTTP handler for User
+│   │       └── order_handler.go     # HTTP handler for Order
+│   ├── app_module/                  # Central module initialization
+│   │   └── app_module.go            # Initializes repositories and services
+│   ├── helpers/                     # Common utility functions
+│   │   └── uuid_helper.go           # Common UUID generator
+│   │   └── string_helpers.go        # String manipulation helpers        
 ```
 
 ## Layers Explained
