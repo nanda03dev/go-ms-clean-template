@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nanda03dev/go-ms-template/src/application/service"
+	"github.com/nanda03dev/go-ms-template/src/application/services"
 	"github.com/nanda03dev/go-ms-template/src/interface/dto"
 )
 
@@ -14,10 +14,10 @@ type UserHandler interface {
 }
 
 type userHandler struct {
-	userService service.UserService
+	userService services.UserService
 }
 
-func NewUserHandler(userService service.UserService) UserHandler {
+func NewUserHandler(userService services.UserService) UserHandler {
 	return &userHandler{
 		userService: userService,
 	}

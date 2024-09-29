@@ -3,7 +3,7 @@ package repositories
 import (
 	"context"
 
-	"github.com/nanda03dev/go-ms-template/src/domain/aggregate"
+	"github.com/nanda03dev/go-ms-template/src/domain/aggregates"
 	"github.com/nanda03dev/go-ms-template/src/infrastructure/db"
 	"github.com/nanda03dev/go-ms-template/src/infrastructure/entity"
 	"go.mongodb.org/mongo-driver/bson"
@@ -15,11 +15,11 @@ type UserRepositoryImpl struct {
 	collection *mongo.Collection
 }
 
-func NewUserRepository(dbs *db.Databases) aggregate.UserRepository {
+func NewUserRepository(dbs *db.Databases) aggregates.UserRepository {
 	return &UserRepositoryImpl{dbs: dbs, collection: dbs.MongoDB.DB.Collection("users")}
 }
 
-func (r *UserRepositoryImpl) Save(user *aggregate.User) error {
+func (r *UserRepositoryImpl) Save(user *aggregates.User) error {
 	// Convert domain.User to entity.User
 	userEntity := convertDomainUserToEntityUser(user)
 
@@ -27,7 +27,7 @@ func (r *UserRepositoryImpl) Save(user *aggregate.User) error {
 	return err
 }
 
-func (r *UserRepositoryImpl) FindById(id string) (*aggregate.User, error) {
+func (r *UserRepositoryImpl) FindById(id string) (*aggregates.User, error) {
 	var user entity.User
 	err := r.collection.FindOne(context.TODO(), bson.M{"userID": id}).Decode(&user)
 	if err != nil {
@@ -38,8 +38,8 @@ func (r *UserRepositoryImpl) FindById(id string) (*aggregate.User, error) {
 }
 
 // Convert entity.User to domain.User
-func convertEntityUserToDomainUser(eu *entity.User) *aggregate.User {
-	return &aggregate.User{
+func convertEntityUserToDomainUser(eu *entity.User) *aggregates.User {
+	return &aggregates.User{
 		UserID:   eu.UserID,
 		Name:     eu.Name,
 		Password: eu.Password,
@@ -48,7 +48,7 @@ func convertEntityUserToDomainUser(eu *entity.User) *aggregate.User {
 }
 
 // Convert domain.User to entity.User for MongoDB storage
-func convertDomainUserToEntityUser(du *aggregate.User) *entity.User {
+func convertDomainUserToEntityUser(du *aggregates.User) *entity.User {
 	return &entity.User{
 		UserID:   du.UserID, // Generates a new ObjectID for Mongo
 		Name:     du.Name,

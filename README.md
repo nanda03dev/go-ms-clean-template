@@ -6,34 +6,40 @@ This repository provides a template for building a microservice in Go, following
 
 ```
 project/
-├── domain/
-│   ├── aggregate/ 
-│   │   ├── user.go          # Business logic for User
-│   │   └── order.go         # Business logic for Order
-├── application/
-│   ├── service/ 
-│   │   ├── user_service.go          # Business logic for User
-│   │   └── order_service.go         # Business logic for Order
-├── infrastructure/
-│   ├── db/
-│   │   ├── db.go                    # Database connection
-│   │   └── mongo-db.go              # Mongo Database connection
-│   │   └── postgres-db.go           # Postgres Database connection
-│   ├── entity/
-│   │   ├── user.go                  # MongoDB User entity
-│   │   └── order.go                 # PostgreSQL Order entity
-│   ├── repository/
-│   │   ├── user_repository_impl.go  # MongoDB implementation of UserRepository
-│   │   └── order_repository_impl.go # PostgreSQL implementation of OrderRepository
-├── interfaces/
-│   ├── handlers/
-│   │   ├── user_handler.go       # HTTP handler for User
-│   │   └── order_handler.go      # HTTP handler for Order
-├── app_module/                      # Central module initialization
-│   └── app_module.go                # Initializes repositories and services
 ├── migrations/                      # Migration scripts for PostgreSQL
+│   └── user_migration.sql
+│   └── order_migration.sql
 ├── main.go                          # Application entry point
-└── go.mod                             
+├── go.mod
+├── src/                             # Source code folder (contains all the layers)
+│   ├── domain/
+│   │   └── aggregates/
+│   │       ├── user.go              # Business logic for User (Domain model)
+│   │       └── order.go             # Business logic for Order (Domain model)
+│   ├── application/
+│   │   └── service/
+│   │       ├── user_service.go      # Business logic for User
+│   │       └── order_service.go     # Business logic for Order
+│   ├── infrastructure/
+│   │   ├── db/
+│   │   │   ├── db.go                # General Database connection
+│   │   │   └── mongo-db.go          # MongoDB connection logic
+│   │   │   └── postgres-db.go       # PostgreSQL connection logic
+│   │   ├── entity/
+│   │   │   ├── user.go              # MongoDB User entity
+│   │   │   └── order.go             # PostgreSQL Order entity
+│   │   ├── repository/
+│   │   │   ├── user_repository_impl.go  # MongoDB UserRepository implementation
+│   │   │   └── order_repository_impl.go # PostgreSQL OrderRepository implementation
+│   ├── interfaces/
+│   │   └── handlers/
+│   │       ├── user_handler.go      # HTTP handler for User
+│   │       └── order_handler.go     # HTTP handler for Order
+│   ├── app_module/                  # Central module initialization
+│   │   └── app_module.go            # Initializes repositories and services
+│   ├── helpers/                     # Common utility functions
+│   │   └── uuid_helper.go           # Common UUID generator
+│   │   └── string_helpers.go        # String manipulation helpers        
 ```
 
 ## Layers Explained

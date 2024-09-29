@@ -1,4 +1,4 @@
-package aggregate
+package aggregates
 
 type Order struct {
 	ID       string

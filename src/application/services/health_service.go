@@ -1,4 +1,4 @@
-package service
+package services
 
 import (
 	"github.com/nanda03dev/go-ms-template/src/infrastructure/db"

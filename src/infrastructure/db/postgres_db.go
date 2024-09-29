@@ -60,7 +60,7 @@ func RunMigration(db *sql.DB) error {
 		return fmt.Errorf("error getting current directory: %w", err)
 	}
 
-	migrationPath := wd + "/sql-migration/migrations/"
+	migrationPath := wd + "/sql-migrations/"
 
 	files, err := os.ReadDir(migrationPath)
 	if err != nil {

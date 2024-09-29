@@ -4,22 +4,22 @@ import (
 	"sync"
 
 	_ "github.com/lib/pq" // PostgreSQL driver
-	"github.com/nanda03dev/go-ms-template/src/application/service"
-	"github.com/nanda03dev/go-ms-template/src/domain/aggregate"
+	"github.com/nanda03dev/go-ms-template/src/application/services"
+	"github.com/nanda03dev/go-ms-template/src/domain/aggregates"
 	"github.com/nanda03dev/go-ms-template/src/infrastructure/db"
 	"github.com/nanda03dev/go-ms-template/src/infrastructure/repositories"
 	"github.com/nanda03dev/go-ms-template/src/interface/handlers"
 )
 
 type Repository struct {
-	UserRepository  aggregate.UserRepository
-	OrderRepository aggregate.OrderRepository
+	UserRepository  aggregates.UserRepository
+	OrderRepository aggregates.OrderRepository
 }
 
 type Service struct {
-	HealthService service.HealthService
-	UserService   service.UserService
-	OrderService  service.OrderService
+	HealthService services.HealthService
+	UserService   services.UserService
+	OrderService  services.OrderService
 }
 
 type Handler struct {
@@ -47,15 +47,15 @@ func GetAppModule() *AppModule {
 	once.Do(func() {
 		var databases = db.GetDBConnection()
 
-		healthService := service.NewHealthService(databases)
+		healthService := services.NewHealthService(databases)
 		healthHandler := handlers.NewHealthHandler(healthService)
 
 		userRepository := repositories.NewUserRepository(databases)
-		userService := service.NewUserService(userRepository)
+		userService := services.NewUserService(userRepository)
 		userHandler := handlers.NewUserHandler(userService)
 
 		orderRepository := repositories.NewOrderRepository(databases)
-		orderService := service.NewOrderService(orderRepository)
+		orderService := services.NewOrderService(orderRepository)
 		orderHandler := handlers.NewOrderHandler(orderService)
 
 		appModule = &AppModule{

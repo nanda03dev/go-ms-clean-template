@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nanda03dev/go-ms-template/src/application/service"
+	"github.com/nanda03dev/go-ms-template/src/application/services"
 	"github.com/nanda03dev/go-ms-template/src/interface/dto"
 )
 
@@ -14,10 +14,10 @@ type OrderHandler interface {
 }
 
 type orderHandler struct {
-	orderService service.OrderService
+	orderService services.OrderService
 }
 
-func NewOrderHandler(orderService service.OrderService) OrderHandler {
+func NewOrderHandler(orderService services.OrderService) OrderHandler {
 	return &orderHandler{
 		orderService: orderService,
 	}

@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nanda03dev/go-ms-template/src/application/service"
+	"github.com/nanda03dev/go-ms-template/src/application/services"
 )
 
 type HealthHandler interface {
@@ -12,10 +12,10 @@ type HealthHandler interface {
 }
 
 type healthHandler struct {
-	healthService service.HealthService
+	healthService services.HealthService
 }
 
-func NewHealthHandler(healthService service.HealthService) HealthHandler {
+func NewHealthHandler(healthService services.HealthService) HealthHandler {
 	return &healthHandler{
 		healthService: healthService,
 	}
