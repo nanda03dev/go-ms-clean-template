@@ -6,7 +6,7 @@ import (
 )
 
 type HealthService interface {
-	Health() dto.HealthDTO
+	Health() dto.HealthResponseDTO
 }
 
 type healthService struct {
@@ -19,7 +19,7 @@ func NewHealthService(dbs *db.Databases) HealthService {
 	}
 }
 
-func (s *healthService) Health() dto.HealthDTO {
+func (s *healthService) Health() dto.HealthResponseDTO {
 	mongoDBHealth, mongoStatus := s.dbs.MongoDB.Health()
 	postgresDBHealth, postgresStatus := s.dbs.PostgresDB.Health()
 
@@ -28,7 +28,7 @@ func (s *healthService) Health() dto.HealthDTO {
 	if !mongoStatus || !postgresStatus {
 		serviceHealth = "go ms template is down due to database un-healthy"
 	}
-	return dto.HealthDTO{
+	return dto.HealthResponseDTO{
 		Service:    serviceHealth,
 		MongoDB:    mongoDBHealth,
 		PostgresDB: postgresDBHealth,
