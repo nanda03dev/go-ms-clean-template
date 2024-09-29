@@ -99,5 +99,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 - [Clean Architecture by Robert C. Martin](https://www.oreilly.com/library/view/clean-architecture-a/9780134494166/)
 - [Golang Documentation](https://golang.org/doc/)
-
 ```
